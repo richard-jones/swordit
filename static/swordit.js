@@ -8,11 +8,19 @@ function depositClick(event, element)
 {
     event.preventDefault()
     
+    // get the metadata to include in the deposit
+    var title = $(".title").text()
+    var abs = $(".abstract").text()
+    var author = $(".author").text()
+    
     $(element).parent()
         .html('<div style="border: 2px solid #7777ff; width: 250px; padding: 5px; background: #eeeeff">\
                 SWORD IT!<br><form><input type="file" id="file" name="depositfile"><br>\
                 <input id="uploadbutton" type="button" value="Upload"/>\
-                <input class="close" type="button" value="Cancel">\
+                <input class="close" type="button" value="Cancel"><br><br>\
+                Title: <input type="text" id="deposit_title" value="' + title + '"><br>\
+                Abstract: <input type="text" id="deposit_abstract" value="' + abs + '"><br>\
+                Author: <input type="text" id="deposit_author" value="' + author + '"><br>\
                 </form></div>')
     
     $(".close").click(function(event) {
