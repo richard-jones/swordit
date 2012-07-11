@@ -1,7 +1,8 @@
-function swordDepositor()
-{
-    setDepositLink()
-}
+(function( $ ) {
+    $.fn.swordit = function() {
+        setDepositLink()
+    };
+})( jQuery );
 
 function depositClick(event, element)
 {
@@ -29,7 +30,6 @@ function uploadClick(event, element)
     
     var file = $("#file")[0].files[0]
     var filename = $("#file").val().substring("C:\\fakepath\\".length)
-    alert(filename)
     $.ajax({
         url: "http://sword:sword@localhost:8080/col-uri/08b48e2d-7f33-4388-80d4-34ac385d9569",
         type: 'POST',
