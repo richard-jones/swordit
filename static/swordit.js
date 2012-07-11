@@ -1,5 +1,8 @@
 (function( $ ) {
     $.fn.swordit = function() {
+        this.each(function() {
+            $(this).append('<div id="sworddepositor"/>')
+        })
         setDepositLink()
     };
 })( jQuery );
@@ -37,12 +40,12 @@ function uploadClick(event, element)
     event.preventDefault()
     
     // first is to deposit the metadata
-    depositMetadata(function (uri) {
-        depositFile(uri)
+    depositMetadata(function (uri, webui) {
+        depositFile(uri, webui)
     })
 }
 
-function depositFile(em_uri)
+function depositFile(em_uri, webui_url)
 {
     var file = $("#file")[0].files[0]
     var filename = $("#file").val().substring("C:\\fakepath\\".length)
@@ -62,7 +65,7 @@ function depositFile(em_uri)
         statusCode : {
             201 : function(data) {
                     var deposit = $(data).find("link[rel='http://purl.org/net/sword/terms/originalDeposit']").attr('href')
-                    setUploadedLink(deposit)
+                    setUploaded(deposit, webui_url)
                 }
         }
     })
@@ -99,7 +102,8 @@ function depositMetadata(callback)
             201 : function(data) {
                     // alert(data)
                     var uri = $(data).find("link[rel='edit-media']").attr('href')
-                    callback(uri)
+                    var webui = $(data).find("link[rel='alternate']").attr('href')
+                    callback(uri, webui)
                 }
         }
     })
@@ -121,8 +125,8 @@ function setDepositLink()
     })
 }
 
-function setUploadedLink(url)
+function setUploaded(file_url, web_url)
 {
     $('#sworddepositor')
-        .html('<a href="' + url + '">DOWNLOAD IT!</a>')
+        .html('<a href="' + file_url + '">DOWNLOAD IT!</a> OR <a href="' + web_url + '">VISIT IT!</a>')
 }
